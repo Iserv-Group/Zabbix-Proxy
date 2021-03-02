@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+  proxy:
+    image: zabbix/zabbix-proxy-sqlite3
+    container_name: zabbix-proxy
+    hostname: zabbix-proxy
+    environment: 
+      PHP_TZ: "America/New_York"
+      TZ: "America/New_York"
+      ZBX_TIMEOUT: 30
+      ZBX_DEBUGLEVEL: 3
+      ZBX_HOSTNAME: example-hostname
+      ZBX_SERVER_HOST: zabbix.iserv.net
+      ZBX_TLSCONNECT: psk
+      ZBX_TLSACCEPT: psk
+      ZBX_TLSPSKFILE: tls.psk
+      ZBX_TLSPSKIDENTITY: "PSK 111"
+      ZBX_CONFIGFREQUENCY: 3600
+    ports:
+      - "10051:10051"
+    volumes:
+     - /docker/proxy/externalscripts:/usr/lib/zabbix/externalscripts
+     - /docker/proxy/enc:/var/lib/zabbix/enc
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
