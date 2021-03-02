@@ -10,7 +10,7 @@ services:
       ZBX_TIMEOUT: 30
       ZBX_DEBUGLEVEL: 3
       ZBX_HOSTNAME: example-hostname
-      ZBX_SERVER_HOST: zabbix.iserv.net
+      ZBX_SERVER_HOST: example.host.com
       ZBX_TLSCONNECT: psk
       ZBX_TLSACCEPT: psk
       ZBX_TLSPSKFILE: tls.psk
