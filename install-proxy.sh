@@ -6,18 +6,19 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 #Prompt for variables
 	read -a tls_id -p "Enter 3 digit TLS ID: "; echo
-	echo "Enter the Hostname that will be used in Zabbix. Must be uniq"
+	echo "Enter the Hostname that will be used in Zabbix. Must be unique"
 	read -a hostname -p "hostname: "; echo
 	echo "Enter Zabbix server Hostname or IP"
 	read -a zbx_srv -p "Zabbix Server: "; echo
-#Install docker and docker compose 
+#Install required packages
 	echo "Installing required packages"
 	apt install docker docker-compose jq zabbix-agent -y 1> /dev/null
 #Find current user
 	echo "Making user changes"
 	user=$(who | awk '{print $1}' | uniq)
-#Add current user to docker group
+#Add current user and zabbix user to docker group
 	usermod -a -G docker $user 1> /dev/null
+	usermod -a -G docker zabbix 1> /dev/null
 #Create directories for docker
 	echo "Making required directories"
 	mkdir /docker 1> /dev/null
@@ -29,6 +30,7 @@ fi
 #Change permisions to current user and docker group
 	chown -R $user:docker /docker 1> /dev/null
 #Generate TLS key for encrypted connection
+	echo "Updating config files, starting proxy container and zabbix-agent"
 	tls_key=$(openssl rand -hex 32) 
 	echo $tls_key > /docker/proxy/enc/tls.psk 
 #Replace variables in docker compose file
@@ -43,8 +45,9 @@ docker-compose -f /docker/compose/proxy/docker-compose.yml up -d 1> /dev/null
 #Restart zabbix service
 	service zabbix-agent restart 1> /dev/null
 #Print Output for Zabbix configuration
+	echo "If there are no errors above, then the script completed sucesfully"
 	echo "Use these variables to add the Proxy/Host to Zabbix"
-	echo "Proxy name: "$hostname
+	echo "Proxy/Host name: "$hostname
 	echo "PSK identitiy: PSK "$tls_id
 	echo "PSK: "$tls_key
 
