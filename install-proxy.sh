@@ -8,7 +8,7 @@
 #Install docker and docker compose 
 	apt install docker docker-compose -y
 #Find current user
-	user=$(who | awk '{print $1}')
+	user=$(who | awk '{print $1}' | uniq)
 #Add current user to docker group
 	usermod -a -G docker $user
 #Create directories for docker
