@@ -10,6 +10,12 @@ fi
 	read -a hostname -p "hostname: "; echo
 	echo "Enter Zabbix server Hostname or IP"
 	read -a zbx_srv -p "Zabbix Server: "; echo
+	echo "Enter Zabbix Username to create Proxy Automatically"
+	echo "Leave blank to skip"
+	read -a zbx_un -p "Username:"
+	if [ ! -z "$zbx_un" ]; then
+		read -sa zbx_pw -p "Password:"
+	fi
 #Install required packages
 	echo "Installing required packages"
 	apt install docker docker-compose jq zabbix-agent -y 1> /dev/null
@@ -44,11 +50,16 @@ fi
 	cp ./Zabbix-Proxy/docker-simple.conf /etc/zabbix/zabbix_agentd.conf.d/docker-simple.conf 1> /dev/null
 #Restart zabbix service
 	service zabbix-agent restart 1> /dev/null
-#Print Output for Zabbix configuration
+	
+if [ -z "$zbx_un" ]; then
+#Print Output for Manual Zabbix Proxy configuration
 	echo "If there are no errors above, then the script completed sucesfully"
 	echo "Use these variables to add the Proxy/Host to Zabbix"
 	echo "Proxy/Host name: "$hostname
 	echo "PSK identitiy: PSK "$tls_id
 	echo "PSK: "$tls_key
+else 
+	
+fi
 
 
