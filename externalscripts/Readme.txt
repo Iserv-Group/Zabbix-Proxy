@@ -1,0 +1,1 @@
+This folder is set to automatically update from the Github Repo periodically and will delete any scripts not found in on Github.
