@@ -13,6 +13,8 @@ fi
 #Install required packages
 	echo "Installing required packages"
 	apt install docker docker-compose jq zabbix-agent -y 1> /dev/null
+#Add Cron Job for auto update
+(crontab -l 2>/dev/null; echo "0 0 * * SAT ~/Zabbix-Proxy/auto-update.sh") | crontab -
 #Find current user
 	echo "Making user changes"
 	user=$(who | awk '{print $1}' | uniq)
