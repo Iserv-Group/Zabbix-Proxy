@@ -16,6 +16,8 @@ services:
       ZBX_TLSPSKFILE: tls.psk
       ZBX_TLSPSKIDENTITY: "PSK 111"
       ZBX_CONFIGFREQUENCY: 3600
+      ZBX_STARTHTTPPOLLERS: 10
+      ZBX_STARTPINGERS: 10
     ports:
       - "10051:10051"
     volumes:
