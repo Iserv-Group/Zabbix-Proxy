@@ -12,6 +12,7 @@ fi
 	read -a zbx_srv -p "Zabbix Server: "; echo
 #Install required packages
 	echo "Installing required packages"
+	apt update
 	apt install docker docker-compose jq zabbix-agent -y 1> /dev/null
 #Add Cron Job for auto update
 (crontab -l 2>/dev/null; echo "0 0 * * SAT ~/Zabbix-Proxy/auto-update.sh") | crontab -
