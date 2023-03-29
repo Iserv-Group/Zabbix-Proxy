@@ -9,7 +9,7 @@ rm -fr ~/temp/
 cp -r ~/Zabbix-Proxy/externalscripts/ /docker/proxy/
 #Set Proxy Tag
 image='    image: zabbix\/zabbix-proxy-sqlite3:'$tag
-sed -i "s/.*zabbix-proxy-sqlite3.*/$image/" docker-compose.yml
+sed -i "s/.*zabbix-proxy-sqlite3.*/$image/" /docker/compose/proxy/docker-compose.yml
 #Pull Current version of Proxy docker container and rebuild the container 
 docker-compose -f /docker/compose/proxy/docker-compose.yml pull
 docker-compose -f /docker/compose/proxy/docker-compose.yml up -d
