@@ -1,5 +1,5 @@
 #!/bin/bash
-tag="latest" #Set tag that proxies will use
+tag="6.4-ubuntu-latest" #Set tag that proxies will use
 #Script for autmatically keeping Zabbix Proxies up to date
 #Copy current version of Github repo
 git clone https://github.com/Iserv-Group/Zabbix-Proxy.git ~/temp
